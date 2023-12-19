@@ -1,0 +1,6 @@
+server:
+  port: 9000
+
+
+card:
+  massege: "dsads"
