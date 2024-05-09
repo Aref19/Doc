@@ -1,10 +1,39 @@
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password: ''
+  application:
+    name: "account"
+  profiles:
+    active: "prod"
+  config:
+    import: "optional:configserver:http://localhost:8071/"
+  h2:
+    console:
+      enabled: true
+  cloud:
+    openfeign:
+      circuitbreaker:
+        enabled: true
 
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  metrics:
+    tag:
+      application: ${spring.application.name}
+
+
+
+server:
+  port: 8989
 
 build:
-  version: "30.0"
-accounts:
-  message: "prodServerChangedsaaref"
-
+  version: "1.0"
 
 management:
   endpoint:
@@ -16,6 +45,37 @@ management:
         include: "*"
 
 
-server:
-  port: 8983
-  
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone : http://localhost:8074/eureka/
+
+
+
+
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 2
+      failureRateThreshold: 50
+      waitDurationInOpenState: 10000
+
+
+resilience4j.retry:
+    configs:
+      default:
+        max-attempts: 3
+        wait-duration: 100
+        enable-exponential-backoff: true
+        exponential-backoff-multiplier: 2
+resilience4j.ratelimiter:
+    configs:
+      default:
+        timeout-duration: 1000
+        limit-refresh-period: 5000
+        limit-for-period: 1
