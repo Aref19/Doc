@@ -9,4 +9,4 @@ server:
   port: 8989
 
 build:
-  version: "1.0"
+  version: "99.0"
