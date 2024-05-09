@@ -4,3 +4,12 @@ build:
   version: "30.0"
 accounts:
   message: "prodServerChangedsaaref"
+
+management:
+  endpoint:
+    gateway:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
