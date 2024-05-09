@@ -16,4 +16,5 @@ management:
 
 
 server:
-  port: 8989
+  port: 8983
+  
